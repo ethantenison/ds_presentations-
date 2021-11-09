@@ -98,16 +98,19 @@ background-size: contain
 ### Data Visualizations can be used to...
 
 --
-* Helps you tell a story
+* Tell a story!
+
 
 --
 * Predict the future 
 
+
 --
-* Helps you discover your weaknesses 
+* Discover your weaknesses 
 
 --
 (your data's weaknesses)
+
 
 --
 * HELPS YOU GET A JOB 😁
@@ -239,23 +242,31 @@ class: inverse
 
 First use the `ggplot` function itself to lay the groundwork
 
-```{r first, out.width="300px"}
+```{r first, out.width="300px", eval=FALSE}
 
 ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g))
 
 ```
 
+--
 
+```{r first2, out.width="300px", echo=FALSE}
+
+ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g))
+
+```
 
 ---
 class: inverse
 
-### `GGPLOT2` Basics 
+### `GGPLOT2` Basics Cont.
 
 
 Secondly add a `geom` function to tell `ggplot` how you would like your data displayed. 
 
 * Add a `+` to connect them together.
+
+--
 
 ```{r second, out.width="300px"}
 
@@ -264,14 +275,33 @@ ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g)) +
 
 ```
 ---
-class: middle, center
+class: middle, inverse 
 
-```{r color}
+### Add Color 
+
+.pull-left[
+
+* Add color by assigning it a variable in the `aes` function. 
+
+* Sometimes you also set the color by setting the fill
+
+```{r color, eval=FALSE}
 
 ggplot(data = penguins,
        aes(x = bill_length_mm , y = body_mass_g, color = species)) +
   geom_point()
 ```
+]
+
+.pull-right[
+```{r color2, echo=FALSE}
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm , y = body_mass_g, color = species)) +
+  geom_point()
+```
+
+]
 
 ---
 class: inverse, middle
@@ -286,7 +316,7 @@ class: inverse, middle
 
 ```{r labs, eval = FALSE}
 
-theme_set(theme_bw())
+{{theme_set(theme_bw())}}
 
 ggplot(data = penguins,
        aes(x = bill_length_mm ,
@@ -306,6 +336,8 @@ ggplot(data = penguins,
 .pull-right[
 
 ```{r labs2, echo = FALSE}
+theme_set(theme_bw())
+
 ggplot(data = penguins,
        aes(x = bill_length_mm , y = body_mass_g, color = species)) +
   geom_point() +
@@ -370,17 +402,189 @@ ggplot(data = penguins,
 ]
 
 ---
+class: middle
 
+### Line Graphs and Confidence Intervals
+
+.pull-left[
+
+```{r linesmooth, eval=FALSE}
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Flipper Length",
+    y = "Body Mass",
+    color = "Species"
+  ) +
+  {{geom_smooth() }}
+
+
+```
+
+]
+
+.pull-right[
+```{r linesmooth2, echo=FALSE}
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  {{geom_smooth() }} +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  )
+
+
+```
+
+]
+
+---
+class: middle
+
+### Box Plots 
+
+.pull-left[
+
+```{r boxplot, eval=FALSE}
+
+ggplot(data = penguins,
+       aes(x = species ,
+           y = body_mass_g,
+           color = species)) +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Flipper Length",
+    y = "Body Mass",
+    color = "Species"
+  ) +
+  {{geom_boxplot() }}
+
+
+```
+
+]
+
+.pull-right[
+```{r boxplot2, echo=FALSE}
+
+ggplot(data = penguins,
+       aes(x = species ,
+           y = body_mass_g,
+           color = species)) +
+  {{geom_boxplot() }} +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  )
+
+
+```
+
+]
+
+
+
+---
+
+### `Rstudio` 
+
+.pull-left[
+
+* An integrated development environment (IDE) for R and Python, with a console, syntax-highlighting editor that supports direct code execution, and tools for plotting, history, debugging and workspace management.
+
+* The alternative is using R in the command line by itself. **BORING** 
+
+* `Rmarkdown`!
+]
+
+.pull-right[
+
+![Rstudio Hex](assets/images/rstudio_hex 2.png)
+
+]
+
+---
+background-image: url('assets/images/rstudio.jpg')
+background-size: cover
+
+---
+background-image: url('assets/images/rstudio_highlighted.png')
+background-size: cover
+
+
+---
+
+### Rmarkdown for Reproducibility
+
+.pull-left[
+
+```{r rmd, echo=FALSE, out.width="600px" }
+knitr::include_graphics("assets/images/rmarkdown_wizards.png")
+```
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations))
+]
+
+]
+
+.pull-right[
+
+
+* `R Markdown` is a file format for making dynamic documents with R.
+
+* Integrates text, code, and output (plots, tables etc) in one place 
+
+* Tons of extension packages that help you make: dashboards, reproducible reports, mail merges, dissertations, SLIDE SHOWS! 👀
+
+]
+
+---
+class: middle, center 
+
+```{r rmd2, echo=FALSE, out.width="600px" }
+knitr::include_graphics("assets/images/rmd_file.jpg")
+```
+
+.tl.footnote-small[
+([Credit: Rstudio](https://rmarkdown.rstudio.com/lesson-1.html))
+]
+
+
+---
+class: middle, center
+
+```{r rmd3, echo=FALSE, out.width="600px" }
+knitr::include_graphics("assets/images/rmd_knitted.jpg")
+```
+
+.tl.footnote-small[
+([Credit: Rstudio](https://rmarkdown.rstudio.com/lesson-1.html))
+]
+
+---
 class: section, left, middle, inverse
 
 # 📚 Resources for R 📚
 
-## Questions? lbjdata.org
 
 #### [#rstats hashtag](https://twitter.com/search?q=%23rstats) on twitter
+#### [#tidytuesday hashtag](https://twitter.com/search?q=%23TidyTuesday) on twitter
+#### [Introduction to Rmarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
+#### [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/introduction.html)
 #### R For Data Science - [Online Book](https://r4ds.had.co.nz) | [Hard Copy](https://www.oreilly.com/library/view/r-for-data/9781491910382/) | [Slack Community](https://www.rfordatasci.com)
-#### [Tidymodels](https://www.tidymodels.org/) website
-#### [Introduction to Statistical Learning](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html) Tidymodels Version
+
 
 
 ---
@@ -391,7 +595,8 @@ class: section, center, middle, inverse
 
 ## Questions?
 
-### 📧: ethan.tenison@austin.utexas.edu
+### 📧: tenison.ethan@austin.utexas.edu
 ### 🐦: @ethantenison
+
 
 
