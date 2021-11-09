@@ -1,0 +1,397 @@
+---
+title: "Introduction to Data Visualization in `R`"
+subtitle: "Co-hosted with the School for Information Career Development Office and the CONNECT Program<html><div style='float:left'></div><hr color='#e2f1fc' size=1px width=1100px></html>"
+author: 
+- "<span style='color:#005f86; font-weight:500'>Ethan Tenison</span> | Project Manager for Data Initiatives, UT Austin - RGK Center"
+date: '<span style="color:#bf5700; font-weight:300">`r format(Sys.Date(), "%B %d, %Y")`</span>'
+output:
+  xaringan::moon_reader: 
+    lib_dir: libs
+    css: ["xaringan-themer.css","assets/extra.css"]
+    yolo: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      beforeInit: "https://platform.twitter.com/widgets.js"
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+
+---
+class: middle
+
+.pull-left[
+
+* .orange[**Personal Background**]: Born and raised in the Rio Grande Valley. I've lived in Austin for 11 years.
+
+* .orange[**Education**]: Government and Spanish BA, Global Policy Studies MA with a certificate in Data Science for Policy Analysis and the Statistical Modeling Portfolio 
+
+* .orange[**Role at RGK**]: data science consulting with the CONNECT Program, program evaluation, data visualization and dashboarding for RGK clients, algorithm development
+]
+
+.pull-right[
+
+
+```{r aisd, echo=FALSE, out.width="500px"}
+knitr::include_graphics("assets/images/AISD.png")
+
+```
+
+```{r libraries, echo = FALSE,warning=TRUE, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, comment = "", cache = FALSE, fig.retina = 3)
+library(flipbookr)        # Makes Step-by-Step Code Demos
+library(xaringanExtra)    # Package with Useful Stuff For Making Slides
+library(tidyverse)        # What loads the core set of Modern R Packages, like ggplot2
+library(tidycensus)       # Tidyverse-friendly connection to Census API
+library(janitor)          # Really useful functions for cleaning data
+library(lubridate)        # Makes Working With Dates Pretty Easy
+library(grid)             # Organizes Visual Objects
+library(ggtext)           # Helps with text in ggplot2 objects
+library(gt)               # A package for making really nice tables in R
+library(gtExtras)
+library(flair)
+library(htmlwidgets)
+library(xaringan)
+library(palmerpenguins)   # test dataset that isn't racist 
+library(dotwhisker)       # for visualizing regression results
+library(vip)
+
+```
+
+<br/>
+
+```{r rgk, echo=FALSE, out.width="500px"}
+knitr::include_graphics("assets/images/RGK.png")
+```
+
+
+]
+
+---
+class: inverse, center, middle
+
+# What is Data Visualization? 
+
+--
+Data visualization gives us a clear idea of what the information means by giving it visual context through maps or graphs
+
+---
+class: middle, center
+
+```{r data_viz, echo=FALSE, out.width="650px"}
+
+knitr::include_graphics("assets/images/data_viz.png")
+```
+
+
+.tl.footnote-small[
+([Credit: CÉDRIC SCHERER](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/))
+]
+
+
+---
+class: inverse, middle
+background-size: contain
+
+### Data Visualizations can be used to...
+
+--
+* Helps you tell a story
+
+--
+* Predict the future 
+
+--
+* Helps you discover your weaknesses 
+
+--
+(your data's weaknesses)
+
+--
+* HELPS YOU GET A JOB 😁
+
+---
+class: inverse,center
+
+
+```{r jobs, echo=FALSE, out.width="600px" }
+knitr::include_graphics("assets/images/jobs.jpg")
+```
+
+.tl.footnote-small[
+([Credit: Visual Capitalist](https://www.visualcapitalist.com/the-20-fastest-growing-jobs-in-the-next-decade/))
+]
+
+---
+class: middle
+.pull-left[
+### What is the R Programming Language?  
+
+* .orange[**R Origin**]: R was first developed as a statistical language
+
+* .orange[**R strengths**]: Advanced statistical modeling, graphics, reproducible reporting  
+
+* .orange[**Data Science**]: One of the two main data science programming languages
+]
+
+.pull-right[
+![R Icon](assets/images/Rlogo.png)
+]
+
+---
+class: middle, center
+![RainbowR](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/rainbowr.gif?raw=true)
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/rainbowr.gif))
+]
+
+---
+background-image: url('assets/images/hermione_spell_class.png')
+background-size: cover
+class: center, bottom, inverse
+
+## How to understand R if you are new...
+
+.tl.footnote-small[
+([Credit: Allison Horst])
+]
+
+---
+background-image: url('assets/images/hp_vs_r.png')
+background-size: cover
+class: center, bottom, inverse
+
+.tl.footnote-small[
+(Credit: Allison Horst)
+]
+---
+class: middle, center
+# Enter the `Tidyverse`
+
+```{r tidyverse, echo=FALSE, out.width="450px" }
+knitr::include_graphics("assets/images/tidyverse_celestial.png")
+```
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations))
+]
+
+---
+class: inverse
+
+### `GGPLOT2` for data visualizations
+.pull-left[
+
+* `GG` Stands for grammar of graphics 
+
+* Uses a consistent grammar to compose graphics from independent elements 
+
+* Automatically formats plots 
+
+* Great for initial data exploration 
+
+* There are **TONS** of additional packages that expand `ggplot2`
+
+
+]
+
+.pull-right[
+
+```{r ggplot2, echo=FALSE, out.width="600px" }
+knitr::include_graphics("assets/images/ggplot2_exploratory.png")
+```
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations))
+]
+
+]
+---
+class: middle 
+
+### Before plotting 
+
+.pull-left[
+
+Use the `glimpse` function ⚡ to quickly  inspect your data
+
+```{r glimpse, out.width="250px"}
+
+glimpse(penguins)
+
+
+```
+.tl.footnote-small[
+([Credit: palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
+]
+
+]
+
+---
+class: inverse
+
+### `GGPLOT2` Basics
+
+
+
+First use the `ggplot` function itself to lay the groundwork
+
+```{r first, out.width="300px"}
+
+ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g))
+
+```
+
+
+
+---
+class: inverse
+
+### `GGPLOT2` Basics 
+
+
+Secondly add a `geom` function to tell `ggplot` how you would like your data displayed. 
+
+* Add a `+` to connect them together.
+
+```{r second, out.width="300px"}
+
+ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g)) +
+  {{geom_point()}}
+
+```
+---
+class: middle, center
+
+```{r color}
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm , y = body_mass_g, color = species)) +
+  geom_point()
+```
+
+---
+class: inverse, middle
+
+### Labeling and Styling 
+
+.pull-left[
+
+* add `labs` function for labels
+
+* add quick and easy theme using `theme_set` function 
+
+```{r labs, eval = FALSE}
+
+theme_set(theme_bw())
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  )
+```
+
+]
+
+.pull-right[
+
+```{r labs2, echo = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm , y = body_mass_g, color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  )
+```
+
+]
+
+---
+class: middle 
+
+### Create subplots with `facet_wrap`
+
+.pull-left[
+
+```{r facet, eval = FALSE}
+
+theme_set(theme_bw())
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  ) +
+  {{facet_wrap(~ island)}}
+```
+
+]
+
+
+.pull-right[
+
+```{r facet2, echo = FALSE}
+
+theme_set(theme_bw())
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  ) +
+  facet_wrap(~ island)
+```
+
+]
+
+---
+
+class: section, left, middle, inverse
+
+# 📚 Resources for R 📚
+
+## Questions? lbjdata.org
+
+#### [#rstats hashtag](https://twitter.com/search?q=%23rstats) on twitter
+#### R For Data Science - [Online Book](https://r4ds.had.co.nz) | [Hard Copy](https://www.oreilly.com/library/view/r-for-data/9781491910382/) | [Slack Community](https://www.rfordatasci.com)
+#### [Tidymodels](https://www.tidymodels.org/) website
+#### [Introduction to Statistical Learning](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html) Tidymodels Version
+
+
+---
+
+class: section, center, middle, inverse
+
+# 🙏 Thank you 🙏
+
+## Questions?
+
+### 📧: ethan.tenison@austin.utexas.edu
+### 🐦: @ethantenison
+
+

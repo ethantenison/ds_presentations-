@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to Data Visualization in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ethan Tenison | Project Manager for Data Initiatives, UT Austin - RGK Center" />
+    <meta name="date" content="2021-11-08" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="assets/extra.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Data Visualization in <code>R</code>
+## Co-hosted with the School for Information Career Development Office and the CONNECT Program
+<html>
+<div style="float:left">
+
+</div>
+<hr color='#e2f1fc' size=1px width=1100px>
+</html>
+### <span style="color:#005f86; font-weight:500">Ethan Tenison</span> | Project Manager for Data Initiatives, UT Austin - RGK Center
+### <span style="color:#bf5700; font-weight:300">November 08, 2021</span>
+
+---
+
+class: middle
+
+.pull-left[
+
+* .orange[**Personal Background**]: Born and raised in the Rio Grande Valley. I've lived in Austin for 11 years.
+
+* .orange[**Education**]: Government and Spanish BA, Global Policy Studies MA with a certificate in Data Science for Policy Analysis and the Statistical Modeling Portfolio 
+
+* .orange[**Role at RGK**]: data science consulting with the CONNECT Program, program evaluation, data visualization and dashboarding for RGK clients, algorithm development
+]
+
+.pull-right[
+
+
+&lt;img src="assets/images/AISD.png" width="500px" /&gt;
+
+
+
+&lt;br/&gt;
+
+&lt;img src="assets/images/RGK.png" width="500px" /&gt;
+
+
+]
+
+---
+class: inverse, center, middle
+
+# What is Data Visualization? 
+
+--
+Data visualization gives us a clear idea of what the information means by giving it visual context through maps or graphs
+
+---
+class: middle, center
+
+&lt;img src="assets/images/data_viz.png" width="650px" /&gt;
+
+
+.tl.footnote-small[
+([Credit: CÉDRIC SCHERER](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/))
+]
+
+
+---
+class: inverse, middle
+background-size: contain
+
+### Data Visualizations can be used to...
+
+--
+* Helps you tell a story
+
+--
+* Predict the future 
+
+--
+* Helps you discover your weaknesses 
+
+--
+(your data's weaknesses)
+
+--
+* HELPS YOU GET A JOB 😁
+
+---
+class: inverse,center
+
+
+&lt;img src="assets/images/jobs.jpg" width="600px" /&gt;
+
+.tl.footnote-small[
+([Credit: Visual Capitalist](https://www.visualcapitalist.com/the-20-fastest-growing-jobs-in-the-next-decade/))
+]
+
+---
+class: middle
+.pull-left[
+### What is the R Programming Language?  
+
+* .orange[**R Origin**]: R was first developed as a statistical language
+
+* .orange[**R strengths**]: Advanced statistical modeling, graphics, reproducible reporting  
+
+* .orange[**Data Science**]: One of the two main data science programming languages
+]
+
+.pull-right[
+![R Icon](assets/images/Rlogo.png)
+]
+
+---
+class: middle, center
+![RainbowR](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/rainbowr.gif?raw=true)
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/rainbowr.gif))
+]
+
+---
+background-image: url('assets/images/hermione_spell_class.png')
+background-size: cover
+class: center, bottom, inverse
+
+## How to understand R if you are new...
+
+.tl.footnote-small[
+([Credit: Allison Horst])
+]
+
+---
+background-image: url('assets/images/hp_vs_r.png')
+background-size: cover
+class: center, bottom, inverse
+
+.tl.footnote-small[
+(Credit: Allison Horst)
+]
+---
+class: middle, center
+# Enter the `Tidyverse`
+
+&lt;img src="assets/images/tidyverse_celestial.png" width="450px" /&gt;
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations))
+]
+
+---
+class: inverse
+
+### `GGPLOT2` for data visualizations
+.pull-left[
+
+* `GG` Stands for grammar of graphics 
+
+* Uses a consistent grammar to compose graphics from independent elements 
+
+* Automatically formats plots 
+
+* Great for initial data exploration 
+
+* There are **TONS** of additional packages that expand `ggplot2`
+
+
+]
+
+.pull-right[
+
+&lt;img src="assets/images/ggplot2_exploratory.png" width="600px" /&gt;
+
+.tl.footnote-small[
+([Credit: Allison Horst](https://github.com/allisonhorst/stats-illustrations))
+]
+
+]
+---
+class: middle 
+
+### Before plotting 
+
+.pull-left[
+
+Use the `glimpse` function ⚡ to quickly  inspect your data
+
+
+```r
+glimpse(penguins)
+```
+
+```
+Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel~
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse~
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, ~
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, ~
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186~
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, ~
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male~
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007~
+```
+.tl.footnote-small[
+([Credit: palmerpenguins](https://allisonhorst.github.io/palmerpenguins/))
+]
+
+]
+
+---
+class: inverse
+
+### `GGPLOT2` Basics
+
+
+
+First use the `ggplot` function itself to lay the groundwork
+
+
+```r
+ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g))
+```
+
+&lt;img src="intro_data_viz_files/figure-html/first-1.png" width="300px" /&gt;
+
+
+
+---
+class: inverse
+
+### `GGPLOT2` Basics 
+
+
+Secondly add a `geom` function to tell `ggplot` how you would like your data displayed. 
+
+* Add a `+` to connect them together.
+
+
+```r
+ggplot(data = penguins, aes(x = bill_length_mm , y = body_mass_g)) +
+  geom_point()
+```
+
+&lt;img src="intro_data_viz_files/figure-html/second-1.png" width="300px" /&gt;
+---
+class: middle, center
+
+
+```r
+ggplot(data = penguins,
+       aes(x = bill_length_mm , y = body_mass_g, color = species)) +
+  geom_point()
+```
+
+&lt;img src="intro_data_viz_files/figure-html/color-1.png" width="504" /&gt;
+
+---
+class: inverse, middle
+
+### Labeling and Styling 
+
+.pull-left[
+
+* add `labs` function for labels
+
+* add quick and easy theme using `theme_set` function 
+
+
+```r
+theme_set(theme_bw())
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  )
+```
+
+]
+
+.pull-right[
+
+&lt;img src="intro_data_viz_files/figure-html/labs2-1.png" width="504" /&gt;
+
+]
+
+---
+class: middle 
+
+### Create subplots with `facet_wrap`
+
+.pull-left[
+
+
+```r
+theme_set(theme_bw())
+
+ggplot(data = penguins,
+       aes(x = bill_length_mm ,
+           y = body_mass_g,
+           color = species)) +
+  geom_point() +
+  labs(
+    title = "Penguin Bill Length and Body Mass",
+    x = "Bill Length",
+    y = "Body Mass",
+    color = "Species"
+  ) +
+*  facet_wrap(~ island)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="intro_data_viz_files/figure-html/facet2-1.png" width="504" /&gt;
+
+]
+
+---
+
+class: section, left, middle, inverse
+
+# 📚 Resources for R 📚
+
+## Questions? lbjdata.org
+
+#### [#rstats hashtag](https://twitter.com/search?q=%23rstats) on twitter
+#### R For Data Science - [Online Book](https://r4ds.had.co.nz) | [Hard Copy](https://www.oreilly.com/library/view/r-for-data/9781491910382/) | [Slack Community](https://www.rfordatasci.com)
+#### [Tidymodels](https://www.tidymodels.org/) website
+#### [Introduction to Statistical Learning](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html) Tidymodels Version
+
+
+---
+
+class: section, center, middle, inverse
+
+# 🙏 Thank you 🙏
+
+## Questions?
+
+### 📧: ethan.tenison@austin.utexas.edu
+### 🐦: @ethantenison
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
